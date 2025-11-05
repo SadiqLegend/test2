@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You, My Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Dancing Script', cursive;
+            background: #0a0a23; /* Midnight navy */
+            color: #f4c2c2; /* Rose-pink glow */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            line-height: 1.8;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.5s ease, transform 1.5s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        h1 {
+            font-size: 3em;
+            color: #ffd700; /* Gold glow */
+            text-shadow: 0 0 10px #ffd700;
+        }
+        .name {
+            font-size: 2em;
+            color: #f4c2c2;
+            text-shadow: 0 0 10px #f4c2c2;
+            margin-top: 20px;
+        }
+        p {
+            font-size: 1.5em;
+            margin: 50px 0;
+            color: #f4c2c2;
+            text-shadow: 0 0 5px #f4c2c2;
+        }
+        .final-text {
+            font-size: 2em;
+            margin: 50px 0;
+        }
+        button {
+            background: #ffd700;
+            color: #0a0a23;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-family: 'Dancing Script', cursive;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #ffd700;
+            transition: box-shadow 0.3s;
+        }
+        button:hover { box-shadow: 0 0 20px #ffd700; }
+        footer {
+            padding: 20px;
+            font-size: 0.9em;
+            color: #c2a3a3;
+            text-shadow: 0 0 5px #c2a3a3;
+        }
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .particle {
+            position: absolute;
+            font-size: 1.5em;
+            animation: drift 15s linear infinite;
+            opacity: 0.5;
+        }
+        @keyframes drift {
+            0% { transform: translateY(100vh) translateX(0); }
+            100% { transform: translateY(-100px) translateX(100px); }
+        }
+        audio { display: none; } /* Hidden background music */
+    </style>
+</head>
+<body>
+    <audio autoplay loop>
+        <source src="https://www.soundjay.com/misc/sounds/piano-soft-01.wav" type="audio/wav"> <!-- Placeholder: Replace with your preferred piano/ambient MP3 URL -->
+    </audio>
+    
+    <div class="particles">
+        <!-- Subtle light particles -->
+        <div class="particle" style="left: 10%; animation-delay: 0s;">✨</div>
+        <div class="particle" style="left: 20%; animation-delay: 3s;">💖</div>
+        <div class="particle" style="left: 30%; animation-delay: 6s;">🌟</div>
+        <div class="particle" style="left: 40%; animation-delay: 9s;">❤️</div>
+        <div class="particle" style="left: 50%; animation-delay: 12s;">✨</div>
+    </div>
+
+    <div class="container">
+        <!-- Opening Scene -->
+        <section class="fade-in" id="opening">
+            <h1>You, My Home</h1>
+            <p>There are miles between us, but somehow you still feel near.</p>
+            <div class="name">To My Love, [Her Name]</div>
+        </section>
+
+        <!-- The Letter -->
+        <section class="fade-in" id="letter1">
+            <p>Every night, I find you in my prayers.</p>
+        </section>
+        <section class="fade-in" id="letter2">
+            <p>Every sunrise feels softer knowing you exist.</p>
+        </section>
+        <section class="fade-in" id="letter3">
+            <p>You’ve become my peace in a restless world.</p>
+        </section>
+        <section class="fade-in" id="letter4">
+            <p>Distance isn’t space — it’s proof of how far love can reach.</p>
+        </section>
+        <section class="fade-in" id="letter5">
+            <p>If home is where the heart is, then my heart is already with you.</p>
+        </section>
+
+        <!-- Final Scene -->
+        <section class="fade-in" id="final">
+            <div class="final-text">
+                <p>Happy Birthday, my love.<br>No matter how far we are —<br>You, are my home.</p>
+            </div>
+            <button onclick="playMessage()">Press to Hear My Message</button>
+        </section>
+    </div>
+
+    <footer>Made with love, distance, and forever.</footer>
+
+    <script>
+        // Fade-in on scroll
+        const sections = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.5 });
+        sections.forEach(section => observer.observe(section));
+
+        // Play message function
+        function playMessage() {
+            window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank'); // Placeholder: Replace with your pre-recorded audio/video URL
+        }
+    </script>
+</body>
+</html>
