@@ -396,3 +396,171 @@ promises.forEach((promise, index) => {
 
   flowersEl.appendChild(flower);
 });
+// Final message at the end of Promise Garden
+const lastMessage = document.createElement("div");
+lastMessage.classList.add("final-message");
+lastMessage.innerHTML = `
+  <p>
+    I love you, mamma. Don’t worry — this pagla is stuck with you 🤭🤭
+    Chinta nei, I’m not going anywhere else — not now, not then, not ever. 💞<br><br>
+    Jaan goo always happy thako akdam noo sadd bujlee mammmaa. 
+    Jibone onek onak onak moja koro mammmaa. 
+    Tumi jaa chaoo god jano tomake seta ddaii jaan 🤗🤗🤗. 
+    Tumi sob somoy sabdhana a theko. 
+    I wish bestest health for you jaan. <br><br>
+    I love you jaan 💖<br>
+    I love you 💖<br>
+    I love you sooo much mamma 💖<br><br>
+    Ar 🤭🤭 Happy Birthday januu 😚😚😚😚😚<br><br>
+    Sorry goo jaan basi Kichu korte parchi na akhon aii chara ar kichu bhul hola ba komi lagle bolbe mammmaa🤭. 
+    Ar tomar akhono gift bakii ache mammmaa 😁😁😁 dekha hok then baki gift mammmaa 🎁
+  </p>
+`;
+flowersEl.appendChild(lastMessage);
+/* ------------------ Playlist of Us ------------------ */
+const playlistEl = document.getElementById("playlist");
+playlistEl.innerHTML = `
+  <iframe style="border-radius:12px" 
+    src="https://open.spotify.com/embed/playlist/3hApyG8OiNp1ZvCnHwmd4K?utm_source=generator&theme=0" 
+    width="100%" 
+    height="380" 
+    frameBorder="0" 
+    allowfullscreen="" 
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+  </iframe>
+`;
+
+/* ------------------ Under the Same Sky ------------------ */
+const skyEl = document.getElementById("sky");
+
+// Coordinates for Sadiq & Ishita
+const sadiq = { lat: 22.365325, lon: 88.284981 };
+const ishita = { lat: 22.396479, lon: 88.277160 };
+
+skyEl.innerHTML = `
+  <h2>Under the Same Sky</h2>
+  <p>
+    No matter where we are, we’re always looking up at the same stars 🌌<br>
+    My sky (Sadiq): (${sadiq.lat}, ${sadiq.lon})<br>
+    Your sky (Ishita): (${ishita.lat}, ${ishita.lon})
+  </p>
+  <canvas id="starCanvas"></canvas>
+`;
+
+const canvas =
+ document.getElementById("starCanvas");
+/* ------------------ Background Music AutoPlay ------------------ */
+const music = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_03b89135d1.mp3?filename=romantic-piano-14151.mp3");
+music.loop = true;
+music.volume = 0.4;
+
+document.addEventListener("click", () => {
+  music.play().catch(() => console.log("Autoplay blocked until user interaction."));
+});
+
+/* ------------------ Ending Message ------------------ */
+const endingEl = document.getElementById("ending");
+endingEl.innerHTML = `
+  <h2>Forever Ours 💞</h2>
+  <p>
+    No distance, no time, no silence — only love that blooms like a promise.<br>
+    You and I, always under the same pink sky, where love never fades.
+  </p>
+  <button id="returnBtn">Return to Start 🌸</button>
+`;
+
+/* ------------------ Return Button Scroll ------------------ */
+document.getElementById("returnBtn").addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+/* ------------------ Final Message Animation ------------------ */
+const finalMessage = document.createElement("div");
+finalMessage.classList.add("final-message");
+finalMessage.innerHTML = `
+  <p>
+    Every song, every star, every heartbeat — <br>
+    they whisper our name together. 💗
+  </p>
+`;
+document.body.appendChild(finalMessage);
+
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = 300;
+
+function drawStars() {
+  for (let i = 0; i < 150; i++) {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    const r = Math.random() * 1.5;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = \`rgba(255,255,255,\${Math.random()})\`;
+    ctx.fill();
+  }
+}
+drawStars();
+/* ------------------ Promise Garden Animation ------------------ */
+const flowerContainer = document.getElementById("promise-garden");
+
+const flowers = ["🌷", "🌸", "🌺", "🌼", "💮", "🌻"];
+for (let i = 0; i < 20; i++) {
+  const flower = document.createElement("div");
+  flower.classList.add("flower");
+  flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+  flower.style.left = `${Math.random() * 90 + 5}%`;
+  flower.style.bottom = `${Math.random() * 100}px`;
+  flowerContainer.appendChild(flower);
+}
+
+/* ------------------ Promise Modal ------------------ */
+const promises = [
+  "I promise to always listen to you, even in silence. 💗",
+  "I promise to hold your heart with care, as it holds mine. 🌸",
+  "I promise to love you through all seasons of time. 🌷",
+  "I promise to make you smile when skies are grey. 🌈",
+  "I promise to choose you, every day, endlessly. 💞"
+];
+
+document.querySelectorAll(".flower").forEach(flower => {
+  flower.addEventListener("click", () => {
+    const modal = document.createElement("div");
+    modal.classList.add("promise-modal");
+
+    const content = document.createElement("div");
+    content.classList.add("promise-content");
+    content.innerHTML = `
+      <p>${promises[Math.floor(Math.random() * promises.length)]}</p>
+      <button class="close-btn">Close</button>
+    `;
+
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+
+    content.querySelector(".close-btn").addEventListener("click", () => {
+      modal.remove();
+    });
+  });
+});
+
+/* ------------------ Floating Animation ------------------ */
+function floatFlowers() {
+  document.querySelectorAll(".flower").forEach(flower => {
+    const floatY = Math.random() * 15 + 10;
+    flower.animate(
+      [
+        { transform: `translateY(0px)` },
+        { transform: `translateY(-${floatY}px)` },
+        { transform: `translateY(0px)` }
+      ],
+      {
+        duration: 4000 + Math.random() * 2000,
+        iterations: Infinity,
+        easing: "ease-in-out"
+      }
+    );
+  });
+}
+floatFlowers();
+
