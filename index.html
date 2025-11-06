@@ -1,163 +1,297 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You, My Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Dancing Script', cursive;
-            background: #0a0a23; /* Midnight navy */
-            color: #f4c2c2; /* Rose-pink glow */
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            line-height: 1.8;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 100px 20px;
-        }
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1.5s ease, transform 1.5s ease;
-        }
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        h1 {
-            font-size: 3em;
-            color: #ffd700; /* Gold glow */
-            text-shadow: 0 0 10px #ffd700;
-        }
-        .name {
-            font-size: 2em;
-            color: #f4c2c2;
-            text-shadow: 0 0 10px #f4c2c2;
-            margin-top: 20px;
-        }
-        p {
-            font-size: 1.5em;
-            margin: 50px 0;
-            color: #f4c2c2;
-            text-shadow: 0 0 5px #f4c2c2;
-        }
-        .final-text {
-            font-size: 2em;
-            margin: 50px 0;
-        }
-        button {
-            background: #ffd700;
-            color: #0a0a23;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            font-family: 'Dancing Script', cursive;
-            cursor: pointer;
-            border-radius: 5px;
-            box-shadow: 0 0 10px #ffd700;
-            transition: box-shadow 0.3s;
-        }
-        button:hover { box-shadow: 0 0 20px #ffd700; }
-        footer {
-            padding: 20px;
-            font-size: 0.9em;
-            color: #c2a3a3;
-            text-shadow: 0 0 5px #c2a3a3;
-        }
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        .particle {
-            position: absolute;
-            font-size: 1.5em;
-            animation: drift 15s linear infinite;
-            opacity: 0.5;
-        }
-        @keyframes drift {
-            0% { transform: translateY(100vh) translateX(0); }
-            100% { transform: translateY(-100px) translateX(100px); }
-        }
-        audio { display: none; } /* Hidden background music */
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Promise Garden — Prototype</title>
+  <style>
+    :root{--bg1:#0b1020;--bg2:#2b1b3a;--accent:#f6c6d1;--muted:#bdb7c7}
+    html,body{height:100%;margin:0;font-family:Inter, Georgia, serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#fff}
+    .center{display:flex;align-items:center;justify-content:center}
+
+    /* Landing */
+    header{height:70vh;display:grid;place-items:center;text-align:center;padding:2rem}
+    h1{font-family:Georgia, 'Times New Roman', serif;font-size:3rem;margin:0;color:transparent;background:linear-gradient(90deg,#ffd7e3,#ffd68a);-webkit-background-clip:text}
+    p.lead{margin-top:.75rem;color:var(--muted);font-size:1.1rem}
+    .enter-btn{margin-top:1.25rem;padding:.75rem 1.25rem;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);cursor:pointer}
+
+    /* Garden canvas */
+    .garden{min-height:80vh;padding:3rem;position:relative;overflow:hidden}
+    .flower{position:absolute;cursor:pointer;transform-origin:center;transition:transform .45s cubic-bezier(.2,.9,.2,1)}
+    .flower img{width:120px;height:120px;display:block;filter:drop-shadow(0 8px 20px rgba(0,0,0,.6))}
+    .label{position:absolute;bottom:-2rem;left:50%;transform:translateX(-50%);font-size:.9rem;color:var(--muted);opacity:0;transition:opacity .25s}
+    .flower:hover{transform:translateY(-8px) scale(1.03)}
+    .flower.opening{animation:bloom .6s forwards}
+    @keyframes bloom{0%{transform:scale(.6) rotate(-6deg)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+
+    /* Heart Bloom */
+    .heart-center{position:relative;margin:0 auto;width:220px;height:220px}
+    .heart-center img{width:100%;height:100%}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;background:linear-gradient(rgba(3,3,6,.6),rgba(3,3,6,.9));display:none;align-items:center;justify-content:center;padding:2rem}
+    .modal.open{display:flex}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));border-radius:12px;padding:1.5rem;max-width:720px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.6)}
+    .card h3{margin:0 0 .5rem;font-family:Georgia, serif}
+    .card p{color:var(--muted)}
+    .controls{display:flex;gap:.5rem;align-items:center;margin-top:1rem}
+    button{cursor:pointer;padding:.5rem .7rem;border-radius:8px;border:0;background:rgba(255,255,255,.04);color:#fff}
+
+    /* Archive */
+    .archive{padding:2rem;background:linear-gradient(180deg, rgba(255,255,255,.01), rgba(255,255,255,.0));}
+    .archive-grid{display:flex;flex-wrap:wrap;gap:1rem}
+    .promise-card{background:rgba(255,255,255,.02);padding:1rem;border-radius:10px;min-width:220px}
+
+    /* Keepsake tray */
+    .tray{position:fixed;right:1rem;bottom:1rem;background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));padding:.6rem;border-radius:10px;backdrop-filter:blur(6px)}
+
+    /* Footer */
+    footer{padding:2rem;text-align:center;color:var(--muted)}
+
+    /* Accessibility controls */
+    .access{position:fixed;left:1rem;bottom:1rem;background:rgba(255,255,255,.02);padding:.5rem;border-radius:8px}
+
+    /* Responsive */
+    @media(max-width:700px){h1{font-size:2rem}.flower img{width:86px;height:86px}}
+  </style>
 </head>
 <body>
-    <audio autoplay loop>
-        <source src="https://www.soundjay.com/misc/sounds/piano-soft-01.wav" type="audio/wav"> <!-- Placeholder: Replace with your preferred piano/ambient MP3 URL -->
-    </audio>
-    
-    <div class="particles">
-        <!-- Subtle light particles -->
-        <div class="particle" style="left: 10%; animation-delay: 0s;">✨</div>
-        <div class="particle" style="left: 20%; animation-delay: 3s;">💖</div>
-        <div class="particle" style="left: 30%; animation-delay: 6s;">🌟</div>
-        <div class="particle" style="left: 40%; animation-delay: 9s;">❤️</div>
-        <div class="particle" style="left: 50%; animation-delay: 12s;">✨</div>
+  <header class="center" id="landing">
+    <div>
+      <h1>The Promise Garden</h1>
+      <p class="lead">Each bloom holds a promise for you.</p>
+      <div class="center"><button class="enter-btn" id="enterBtn">Enter Garden</button></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="garden" id="gardenCanvas" aria-label="Interactive garden canvas" role="region">
+      <!-- Heart Bloom center -->
+      <div style="position:absolute;left:50%;top:30%;transform:translate(-50%,-10%);" class="heart-center">
+        <div class="flower" id="heartBloom" style="left:50%;top:50%;transform:translate(-50%,-50%);" data-id="heart">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><path fill='%23ff7aa2' d='M60 102s-6.2-4.8-15.8-12C26.7 75.2 8 59.6 8 40 8 23.7 20.7 12 37 12c9.6 0 15 5.7 23 15 8-9.3 13.4-15 23-15 16.3 0 29 11.7 29 28 0 19.6-18.7 35.2-36.2 50-9.6 7.2-15.8 12-15.8 12z'/></svg>" alt="Heart bloom"/>
+        </div>
+      </div>
+
+      <!-- Sample flowers placed absolutely -->
+      <div class="flower" data-id="1" style="left:12%;top:55%" tabindex="0">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><circle cx='60' cy='60' r='40' fill='%23ffd1dc'/></svg>" alt="Flower 1" />
+        <div class="label">Promise 1</div>
+      </div>
+
+      <div class="flower" data-id="2" style="left:24%;top:20%" tabindex="0">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><ellipse cx='60' cy='60' rx='44' ry='34' fill='%23fbd7a7'/></svg>" alt="Flower 2" />
+        <div class="label">Memory</div>
+      </div>
+
+      <div class="flower" data-id="3" style="left:40%;top:68%" tabindex="0">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect x='10' y='10' width='100' height='100' rx='28' fill='%23c6f0ff'/></svg>" alt="Flower 3" />
+        <div class="label">Prayer</div>
+      </div>
+
+      <div class="flower" data-id="4" style="left:68%;top:18%" tabindex="0">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><path d='M60 12c18 0 28 10 28 28s-10 28-28 28-28-10-28-28 10-28 28-28z' fill='%23e6d6ff'/></svg>" alt="Flower 4" />
+        <div class="label">Promise 4</div>
+      </div>
+
+      <div class="flower" data-id="5" style="left:80%;top:54%" tabindex="0">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><path d='M60 20c22 0 40 18 40 40s-18 40-40 40S20 82 20 60 38 20 60 20z' fill='%23ffd8b8'/></svg>" alt="Flower 5" />
+        <div class="label">Promise 5</div>
+      </div>
+
+      <div class="flower" data-id="6" style="left:50%;top:82%" tabindex="0">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><circle cx='60' cy='60' r='36' fill='%23d1ffd8'/></svg>" alt="Flower 6" />
+        <div class="label">Memory 6</div>
+      </div>
+
+      <!-- floating fireflies (decorative) -->
+      <svg style="position:absolute;inset:0;pointer-events:none;" aria-hidden>
+        <defs><filter id="g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter></defs>
+      </svg>
+    </section>
+
+    <!-- Modal for opened flower -->
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="card" role="document">
+        <h3 id="modalTitle">Promise</h3>
+        <p id="modalText">A short heartfelt promise will appear here when a flower is opened.</p>
+        <div class="controls">
+          <audio id="modalAudio" controls preload="none" aria-label="Promise audio" style="min-width:220px">
+            <source src="" type="audio/mpeg">
+            Your browser does not support audio playback.
+          </audio>
+          <button id="savePromise">Save this promise</button>
+          <button id="printPromise">Print / Download card</button>
+          <button id="closeModal">Close</button>
+        </div>
+      </div>
     </div>
 
-    <div class="container">
-        <!-- Opening Scene -->
-        <section class="fade-in" id="opening">
-            <h1>You, My Home</h1>
-            <p>There are miles between us, but somehow you still feel near.</p>
-            <div class="name">To My Love, [Her Name]</div>
-        </section>
+    <!-- Archive -->
+    <section class="archive" aria-label="Archive">
+      <h2 style="font-family:Georgia, serif">Garden Archive</h2>
+      <div class="archive-grid" id="archiveGrid">
+        <!-- promise cards appear here -->
+      </div>
+      <div style="margin-top:1rem"><button id="replayAll">Replay bloom animations</button></div>
+    </section>
 
-        <!-- The Letter -->
-        <section class="fade-in" id="letter1">
-            <p>Every night, I find you in my prayers.</p>
-        </section>
-        <section class="fade-in" id="letter2">
-            <p>Every sunrise feels softer knowing you exist.</p>
-        </section>
-        <section class="fade-in" id="letter3">
-            <p>You’ve become my peace in a restless world.</p>
-        </section>
-        <section class="fade-in" id="letter4">
-            <p>Distance isn’t space — it’s proof of how far love can reach.</p>
-        </section>
-        <section class="fade-in" id="letter5">
-            <p>If home is where the heart is, then my heart is already with you.</p>
-        </section>
+  </main>
 
-        <!-- Final Scene -->
-        <section class="fade-in" id="final">
-            <div class="final-text">
-                <p>Happy Birthday, my love.<br>No matter how far we are —<br>You, are my home.</p>
-            </div>
-            <button onclick="playMessage()">Press to Hear My Message</button>
-        </section>
-    </div>
+  <div class="tray" id="tray">Keepsake: <span id="trayCount">0</span></div>
+  <div class="access">A11y: <button id="reduceMotion">Reduced motion</button></div>
 
-    <footer>Made with love, distance, and forever.</footer>
+  <footer>
+    <p>Happy Birthday, <strong id="heroName">My Love</strong>. May every promise grow into our tomorrow.</p>
+    <p style="font-size:.8rem;color:var(--muted)">Made with distance, devotion, and a thousand small promises.</p>
+  </footer>
 
-    <script>
-        // Fade-in on scroll
-        const sections = document.querySelectorAll('.fade-in');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.5 });
-        sections.forEach(section => observer.observe(section));
+  <script>
+    // Default placeholder data (can be edited)
+    const HER_NAME = 'My Love'; // replace this string with her name/nickname
+    const TONE = 'poetic'; // tone used for messages
+    const MUSIC_VIBE = 'soft piano'; // background music default
 
-        // Play message function
-        function playMessage() {
-            window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank'); // Placeholder: Replace with your pre-recorded audio/video URL
-        }
-    </script>
+    document.getElementById('heroName').textContent = HER_NAME;
+
+    const promises = {
+      1: {title:'Promise 1', text:'I promise to write to you even on days I am tired. Your name is the easiest prayer I know.', audio:'', date:'June — the night we called till dawn'},
+      2: {title:'Memory', text:'I keep the memory of our laughter like a warm cup of tea on rainy mornings.', audio:'', date:'April — the first time we said forever'},
+      3: {title:'Prayer', text:'Every night I thank for your safe smile. I pray for your peace and light every day.', audio:'', date:'Ramadan — whispers at midnight'},
+      4: {title:'Promise 4', text:'I promise to choose you, again and again, even when miles ask otherwise.', audio:'', date:'September — promise under the stars'},
+      5: {title:'Promise 5', text:'I will celebrate your small wins like they are my own — because you are.', audio:'', date:'December — cozy winter call'},
+      6: {title:'Memory 6', text:'We turned silence into comfort; I keep that safe inside me.', audio:'', date:'October — quiet midnight train'},
+      heart: {title:'My Promise', text:'I promise to build a home with you in every small way — in letters, in calls, in the soft ordinary days. Happy Birthday, my love.', audio:'', date:'This day'}
+    };
+
+    // Landing -> enter
+    document.getElementById('enterBtn').addEventListener('click',()=>{
+      document.getElementById('landing').scrollIntoView({behavior:'smooth',block:'end'});
+      setTimeout(()=>{document.getElementById('gardenCanvas').focus();},600);
+    });
+
+    // Flower interactions
+    const flowers = document.querySelectorAll('.flower');
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalText = document.getElementById('modalText');
+    const modalAudio = document.getElementById('modalAudio');
+    const trayCount = document.getElementById('trayCount');
+    const archiveGrid = document.getElementById('archiveGrid');
+
+    const keepsake = new Set();
+
+    function openFlower(id){
+      const data = promises[id];
+      if(!data) return;
+      modalTitle.textContent = data.title;
+      modalText.textContent = data.text + ' (' + data.date + ')';
+      modalAudio.pause();
+      if(data.audio){
+        modalAudio.querySelector('source').src = data.audio; modalAudio.load();
+      } else {
+        modalAudio.querySelector('source').src = '';
+        modalAudio.load();
+      }
+      modal.classList.add('open');modal.setAttribute('aria-hidden','false');
+      // add to archive (session)
+      addToArchive(id,data);
+    }
+
+    function addToArchive(id,data){
+      // avoid duplicates in archive
+      if(document.querySelector('.promise-card[data-id="'+id+'"]')) return;
+      const card = document.createElement('div');
+      card.className = 'promise-card';
+      card.setAttribute('data-id',id);
+      card.innerHTML = `<strong>${data.title}</strong><p style="color:var(--muted);margin:6px 0">${data.text}</p><small style='color:var(--muted)'>${data.date}</small><div style='margin-top:.5rem'><button class='reopen' data-id='${id}'>Open</button></div>`;
+      archiveGrid.appendChild(card);
+      // attach reopen
+      card.querySelector('.reopen').addEventListener('click',()=>{
+        openFlower(id);
+      });
+    }
+
+    flowers.forEach(f=>{
+      f.addEventListener('click',()=>{
+        const id = f.getAttribute('data-id');
+        f.classList.add('opening');
+        setTimeout(()=>{f.classList.remove('opening')},700);
+        const lbl = f.querySelector('.label'); if(lbl) lbl.style.opacity=1;
+        openFlower(id);
+      });
+      // keyboard accessibility
+      f.addEventListener('keydown',(e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); f.click(); } });
+    });
+
+    // Modal controls
+    document.getElementById('closeModal').addEventListener('click',()=>{ closeModal(); });
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeModal(); });
+
+    function closeModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); modalAudio.pause(); }
+
+    // Save promise -> keepsake
+    document.getElementById('savePromise').addEventListener('click',()=>{
+      const id = findOpenPromiseId(); if(!id) return;
+      if(!keepsake.has(id)){ keepsake.add(id); updateTray(); animateSeed(); }
+    });
+
+    function findOpenPromiseId(){
+      const title = modalTitle.textContent;
+      for(const k in promises) if(promises[k].title===title) return k;
+      return null;
+    }
+
+    function updateTray(){ trayCount.textContent = keepsake.size; }
+
+    function animateSeed(){
+      const el = document.createElement('div');
+      el.textContent='🌱'; el.style.position='fixed'; el.style.right='90px'; el.style.bottom='20px'; el.style.fontSize='18px'; el.style.opacity=0; document.body.appendChild(el);
+      let t=0; const iv=setInterval(()=>{ t+=1; el.style.opacity= (t/20).toString(); el.style.transform=`translateY(${-t*2}px)`; if(t>20){ clearInterval(iv); setTimeout(()=>el.remove(),400);} },16);
+    }
+
+    // Print / download promise card
+    document.getElementById('printPromise').addEventListener('click',()=>{
+      const id = findOpenPromiseId(); if(!id) return; const data = promises[id];
+      const w = window.open('','_blank');
+      const html = `<!doctype html><html><head><meta charset="utf-8"><title>${data.title}</title><style>body{font-family:Georgia, serif;padding:40px;background:#fff;color:#111} h1{color:#222} p{color:#333}</style></head><body><h1>${escapeHtml(data.title)}</h1><p>${escapeHtml(data.text)}</p><p><em>${escapeHtml(data.date)}</em></p></body></html>`;
+      w.document.write(html); w.document.close(); w.focus(); setTimeout(()=>{ w.print(); },500);
+    });
+
+    function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    // Replay blooms
+    document.getElementById('replayAll').addEventListener('click',()=>{
+      flowers.forEach((f,i)=>{ setTimeout(()=>{ f.classList.add('opening'); setTimeout(()=>f.classList.remove('opening'),800); }, i*160); });
+    });
+
+    // Reduced motion
+    const reduceBtn = document.getElementById('reduceMotion');
+    let reduced=false;
+    reduceBtn.addEventListener('click',()=>{ reduced=!reduced; document.documentElement.style.setProperty('--reduced', reduced?1:0); document.body.style.transition = reduced? 'none' : ''; reduceBtn.textContent = reduced? 'Motion reduced' : 'Reduced motion'; });
+
+    // Utility: resume autoplay for modal audio on user gesture (many browsers require gesture)
+    document.addEventListener('click',()=>{ /* placeholder in case we add background music */ },{once:true});
+
+    // Small enhancement: focus trap in modal (basic)
+    modal.addEventListener('keydown',(e)=>{
+      if(e.key==='Tab'){
+        const focusable = modal.querySelectorAll('button,a,input,textarea,select');
+        if(focusable.length===0) return;
+        const first = focusable[0]; const last = focusable[focusable.length-1];
+        if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+        else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // Accessibility: set aria-hidden when modal opens/closes
+    const observer = new MutationObserver(()=>{
+      const open = modal.classList.contains('open');
+      document.querySelectorAll('main > *:not(.modal)').forEach(n=>{ if(open) n.setAttribute('aria-hidden','true'); else n.removeAttribute('aria-hidden'); });
+    });
+    observer.observe(modal,{attributes:true,attributeFilter:['class']});
+
+    // End of script
+  </script>
 </body>
 </html>
