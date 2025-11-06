@@ -366,3 +366,33 @@ function closeLetter(){
 
 /* ------------------ Promise Garden ------------------ */
 const flowersEl = document.getElementBy
+const promises = [
+  "I promise to keep you akdam sajiya, like my princess — always loved, always cherished. 👑",
+  "I promise to love you unconditionally, through every mood, every storm, every season.",
+  "I promise to love you more… more, more, and more — forever and beyond.",
+  "I promise I’ll make you the happiest girl in the world, because you already make me the happiest soul alive.",
+  "I promise to stand by you, jaan, in every storm, every step, every up and every down of your life.",
+  "I promise I am only yours — forever, mammaa. ❤️"
+];
+
+promises.forEach((promise, index) => {
+  const flower = document.createElement("div");
+  flower.classList.add("flower");
+  flower.style.left = `${10 + index * 15}%`;
+  flower.innerHTML = "🌸";
+
+  flower.addEventListener("click", () => {
+    const modal = document.createElement("div");
+    modal.classList.add("promise-modal");
+    modal.innerHTML = `
+      <div class="promise-content">
+        <p>${promise}</p>
+        <button class="close-btn">Close</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    modal.querySelector(".close-btn").addEventListener("click", () => modal.remove());
+  });
+
+  flowersEl.appendChild(flower);
+});
