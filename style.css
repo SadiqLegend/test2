@@ -1,0 +1,208 @@
+/* (Full CSS combined from all messages, finalized) */
+body {
+  margin: 0;
+  background-color: #fff0f5;
+  font-family: 'Great Vibes', cursive;
+  color: #a8006f;
+  text-align: center;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-top: 50px;
+  text-shadow: 0 0 15px rgba(255, 192, 203, 0.7);
+}
+
+/* Promise Garden */
+#flowers {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #ffe6f0, #fff0f5);
+  border-radius: 15px;
+  margin: 40px;
+  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
+}
+
+/* Playlist */
+#playlist {
+  padding: 80px 20px;
+  text-align: center;
+  background: linear-gradient(180deg, #fff0f5, #ffe6f0);
+  color: #a8006f;
+  font-family: 'Great Vibes', cursive;
+}
+
+#playlist h2 {
+  font-size: 2.5rem;
+  color: #d63384;
+  margin-bottom: 25px;
+  text-shadow: 0 0 10px rgba(255, 182, 193, 0.6);
+}
+
+#playlist iframe {
+  border: 3px solid #f8b1d0;
+  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+}
+
+#playlist iframe:hover {
+  transform: scale(1.02);
+}
+
+/* Sky Section */
+#sky {
+  position: relative;
+  text-align: center;
+  padding: 100px 20px;
+  background: radial-gradient(circle at center, #ffe6f0, #ffc8dd);
+  color: #7a1e61;
+  font-family: 'Great Vibes', cursive;
+}
+
+#sky h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #d63384;
+}
+
+#sky p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+#starCanvas {
+  display: block;
+  margin: 0 auto;
+  border-radius: 15px;
+  background: linear-gradient(180deg, #0a0028, #240046);
+  box-shadow: 0 0 20px rgba(255, 192, 203, 0.6);
+}
+
+/* Ending */
+#ending {
+  text-align: center;
+  padding: 100px 20px;
+  background: linear-gradient(180deg, #fff0f5, #ffe6f0);
+  color: #a8006f;
+  font-family: 'Great Vibes', cursive;
+}
+
+#ending h2 {
+  font-size: 2.5rem;
+  color: #d63384;
+  text-shadow: 0 0 15px rgba(255, 182, 193, 0.7);
+  margin-bottom: 20px;
+}
+
+#ending p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  line-height: 1.8;
+}
+
+#returnBtn {
+  background-color: #ffb3d9;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 30px;
+  color: #7a1e61;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(255, 192, 203, 0.6);
+}
+
+#returnBtn:hover {
+  background-color: #ff8fc7;
+  transform: scale(1.05);
+  color: #fff;
+}
+
+/* Animation */
+.flower {
+  position: absolute;
+  bottom: 20px;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+.flower:hover {
+  transform: scale(1.4) rotate(10deg);
+}
+
+.promise-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 192, 203, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+}
+
+.promise-content {
+  background: #fff0f8;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(255, 182, 193, 0.7);
+  text-align: center;
+  max-width: 90%;
+  font-family: 'Great Vibes', cursive;
+  color: #a8006f;
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  background: #ffb3d9;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  color: #7a1e61;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  background: #ff8fc7;
+  color: white;
+  transform: scale(1.1);
+}
+
+.final-message {
+  margin-top: 100px;
+  padding: 40px 20px;
+  text-align: center;
+  background: linear-gradient(180deg, #ffe6f0, #fff0f5);
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(255, 192, 203, 0.6);
+  font-family: 'Great Vibes', cursive;
+  color: #a8006f;
+  font-size: 1.3rem;
+  line-height: 1.8;
+}
+
+/* Responsive Fix */
+@media (max-width: 480px) {
+  .promise-content { font-size: 1.2rem; padding: 20px; }
+  .final-message { font-size: 1.1rem; padding: 25px 15px; }
+  #sky h2, #playlist h2, #ending h2 { font-size: 2rem; }
+  #returnBtn { padding: 8px 20px; font-size: 0.85rem; }
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+section {
+  animation: fadeInUp 1s ease forwards;
+}
